@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>All Rounder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F6F9;
+    --surface: #FFFFFF;
+    --ink: #14213D;
+    --ink-soft: #4A5670;
+    --line: #D9DFE8;
+    --accent: #FFC83D;
+    --accent-ink: #14213D;
+    --panel: #14213D;
+    --panel-ink: #F4F6F9;
+    --panel-soft: #B7C1D6;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0C1424;
+      --surface: #131D33;
+      --ink: #EEF2F8;
+      --ink-soft: #A9B5CC;
+      --line: #25324E;
+      --panel: #1B2946;
+      --panel-ink: #F4F6F9;
+      --panel-soft: #B7C1D6;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0C1424;
+    --surface: #131D33;
+    --ink: #EEF2F8;
+    --ink-soft: #A9B5CC;
+    --line: #25324E;
+    --panel: #1B2946;
+    --panel-ink: #F4F6F9;
+    --panel-soft: #B7C1D6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { width: min(1160px, 100% - 40px); margin-inline: auto; }
+
+  /* Header */
+  header.site {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; }
+  .brand svg { width: 30px; height: 30px; flex: none; }
+  nav.main { display: flex; align-items: center; gap: 26px; }
+  nav.main a { text-decoration: none; font-weight: 500; font-size: 0.95rem; color: var(--ink-soft); }
+  nav.main a:hover { color: var(--ink); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px; border-radius: 999px; border: 2px solid transparent;
+    font: 600 0.97rem/1 var(--body); text-decoration: none; cursor: pointer;
+    background: var(--accent); color: var(--accent-ink);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(20,33,61,.18); }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+
+  @media (max-width: 760px) {
+    nav.main a:not(.btn) { display: none; }
+  }
+
+  /* Hero */
+  .hero { padding: clamp(40px, 7vw, 88px) 0 clamp(48px, 7vw, 96px); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 46ch; margin: 0 0 30px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* Service selector: the one memorable element */
+  .selector {
+    background: var(--panel);
+    color: var(--panel-ink);
+    border-radius: 22px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    min-height: 420px;
+  }
+  .tabs { display: flex; flex-direction: column; padding: 10px; gap: 2px; border-right: 1px solid rgba(255,255,255,.1); }
+  .tab {
+    appearance: none; background: transparent; border: 0; color: var(--panel-soft);
+    text-align: left; font: 600 1rem/1.25 var(--display); letter-spacing: -0.01em;
+    padding: 14px 14px; border-radius: 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: .35; flex: none; transition: all .15s ease; }
+  .tab:hover { color: var(--panel-ink); }
+  .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+  .tab[aria-selected="true"]::before { opacity: 1; background: var(--accent-ink); }
+  .detail { padding: 28px 28px 26px; display: flex; flex-direction: column; gap: 14px; }
+  .detail h2 { font-family: var(--display); font-size: 1.7rem; line-height: 1.1; letter-spacing: -0.025em; margin: 0; }
+  .detail p { margin: 0; color: var(--panel-soft); }
+  .detail ul { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .detail li { padding-left: 24px; position: relative; font-size: 0.97rem; }
+  .detail li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 12px; height: 6px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg) translateY(-3px); }
+  .detail .ask { margin-top: auto; align-self: flex-start; }
+  .detail.swap { animation: swap .22s ease; }
+  @keyframes swap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .selector { grid-template-columns: 1fr; }
+    .tabs { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); flex-direction: row; overflow-x: auto; padding: 8px; }
+    .tab { white-space: nowrap; }
+    .detail { padding: 22px; }
+  }
+
+  /* Sections */
+  section.block { padding: clamp(48px, 7vw, 88px) 0; border-top: 1px solid var(--line); }
+  h2.section-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.9rem); letter-spacing: -0.03em; line-height: 1.06; margin: 0 0 14px; max-width: 18ch; text-wrap: balance; }
+  .section-lede { color: var(--ink-soft); max-width: 56ch; margin: 0 0 40px; }
+
+  /* Process: a real sequence, so numbered */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; counter-reset: s; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+  .step { padding: 28px; counter-increment: s; border-right: 1px solid var(--line); }
+  .step:last-child { border-right: 0; }
+  .step::before { content: counter(s); display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 800 1.05rem var(--display); margin-bottom: 18px; }
+  .step h3 { font-family: var(--display); font-size: 1.25rem; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
+  @media (max-width: 760px) {
+    .steps { grid-template-columns: 1fr; }
+    .step { border-right: 0; border-bottom: 1px solid var(--line); }
+    .step:last-child { border-bottom: 0; }
+  }
+
+  /* About */
+  .about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 80px); align-items: start; }
+  .about p { color: var(--ink-soft); max-width: 54ch; margin: 0 0 16px; }
+  .promises { display: grid; gap: 14px; }
+  .promise { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; }
+  .promise strong { display: block; font-family: var(--display); font-size: 1.15rem; letter-spacing: -0.015em; margin-bottom: 4px; }
+  .promise span { color: var(--ink-soft); font-size: 0.97rem; }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+
+  /* Contact */
+  .contact { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 6vw, 80px); align-items: start; }
+  .contact-card { background: var(--panel); color: var(--panel-ink); border-radius: 22px; padding: clamp(24px, 4vw, 40px); }
+  .contact-card h2 { color: var(--panel-ink); max-width: none; }
+  .contact-card p { color: var(--panel-soft); margin: 0 0 12px; }
+  .contact-card a { color: var(--accent); font-weight: 600; }
+  form.req { display: grid; gap: 16px; }
+  label { display: grid; gap: 6px; font-weight: 600; font-size: 0.93rem; }
+  input, select, textarea {
+    font: 400 1rem var(--body); color: var(--ink); background: var(--surface);
+    border: 1.5px solid var(--line); border-radius: 12px; padding: 13px 14px; width: 100%;
+  }
+  textarea { min-height: 130px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: none; box-shadow: 0 0 0 3px var(--accent); }
+  .hint { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+
+  footer.site { border-top: 1px solid var(--line); padding: 32px 0 40px; color: var(--ink-soft); font-size: 0.93rem; }
+  footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .detail.swap { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="All Rounder, home">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" fill="var(--ink)"/>
+        <path d="M16 16 L16 3 A13 13 0 0 1 29 16 Z" fill="var(--accent)"/>
+        <circle cx="16" cy="16" r="5" fill="var(--bg)"/>
+      </svg>
+      All Rounder
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#process">How we work</a>
+      <a href="#about">About</a>
+      <a class="btn" href="#contact">Request a quote</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="services">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>One team for every job your business needs done.</h1>
+        <p class="lede">All Rounder handles the everyday work that keeps a business running, from paperwork and repairs to printing and IT, so you deal with one contact instead of six.</p>
+        <div class="cta-row">
+          <a class="btn" href="#contact">Request a quote</a>
+          <a class="btn ghost" href="#process">See how we work</a>
+        </div>
+      </div>
+
+      <div class="selector" aria-label="Our services">
+        <div class="tabs" role="tablist" aria-orientation="vertical" id="tabs"></div>
+        <div class="detail" id="detail" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="process">
+    <div class="wrap">
+      <h2 class="section-title">From first message to finished job</h2>
+      <p class="section-lede">Every project follows the same three steps, whatever the size.</p>
+      <div class="steps">
+        <div class="step">
+          <h3>Tell us what you need</h3>
+          <p>Send a short message or call. We ask a few questions so we understand the job before quoting.</p>
+        </div>
+        <div class="step">
+          <h3>Get a clear quote</h3>
+          <p>You receive a written price and timeline. Nothing starts until you approve it.</p>
+        </div>
+        <div class="step">
+          <h3>We do it and check in</h3>
+          <p>Our team completes the work, then follows up to make sure you are happy with the result.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap about">
+      <div>
+        <h2 class="section-title">Why businesses stay with us</h2>
+        <p>Most companies juggle a different supplier for each small task. All Rounder replaces that list with one team that knows your business and gets things done properly the first time.</p>
+        <p>Replace this paragraph with your own story: when you started, who you work with, and what makes your team different.</p>
+      </div>
+      <div class="promises">
+        <div class="promise"><strong>One point of contact</strong><span>You always know who to call, whatever the job.</span></div>
+        <div class="promise"><strong>Quotes before work</strong><span>The price is agreed in writing before we begin.</span></div>
+        <div class="promise"><strong>Follow-up after every job</strong><span>We check that everything works and fix what does not.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap contact">
+      <div class="contact-card">
+        <h2 class="section-title">Tell us what you need</h2>
+        <p>We reply to every request within one working day.</p>
+        <p>Email: <a href="mailto:hello@yourcompany.com" id="mailLink">hello@yourcompany.com</a></p>
+        <p>Phone: add your number here</p>
+        <p>Hours: add your opening hours here</p>
+      </div>
+      <form class="req" id="reqForm">
+        <label>Your name
+          <input type="text" id="fName" autocomplete="name" required>
+        </label>
+        <label>What do you need help with?
+          <select id="fService"></select>
+        </label>
+        <label>Details
+          <textarea id="fMsg" placeholder="Describe the job, location, and when you need it done."></textarea>
+        </label>
+        <button class="btn" type="submit">Send request</button>
+        <p class="hint">This opens your email app with the request filled in.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap row">
+    <span>© 2026 All Rounder. All rights reserved.</span>
+    <span>hello@yourcompany.com</span>
+  </div>
+</footer>
+
+<script>
+  // Edit these to match your business.
+  var COMPANY_EMAIL = "hello@yourcompany.com";
+  var SERVICES = [
+    { name: "Business setup and paperwork", text: "Registrations, licences, renewals, and the forms nobody wants to fill in.", items: ["Company and trade licence support", "Document preparation and filing", "Renewal reminders"] },
+    { name: "Repairs and maintenance", text: "Fast fixes and planned upkeep for offices, shops, and workspaces.", items: ["Electrical, plumbing, and carpentry", "Scheduled maintenance visits", "Emergency call-outs"] },
+    { name: "Cleaning and facility care", text: "Clean, safe premises on a schedule that suits your opening hours.", items: ["Daily, weekly, or one-off cleaning", "Deep cleaning before launches", "Supplies and restocking"] },
+    { name: "Printing and branding", text: "Everything printed, from business cards to shop signage.", items: ["Cards, brochures, and packaging", "Signs and banners", "Logo and brand material"] },
+    { name: "Delivery and logistics", text: "Reliable pick-up and delivery for goods, documents, and supplies.", items: ["Same-day local delivery", "Scheduled supplier runs", "Delivery tracking updates"] },
+    { name: "IT and website support", text: "Keep your devices, accounts, and website working without the headaches.", items: ["Device and network setup", "Website updates and hosting", "Email and account help"] }
+  ];
+
+  var tabs = document.getElementById("tabs");
+  var detail = document.getElementById("detail");
+  var sel = document.getElementById("fService");
+  var current = 0;
+
+  function mailTo(subject, body) {
+    return "mailto:" + COMPANY_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+
+  function show(i, animate) {
+    current = i;
+    var s = SERVICES[i];
+    Array.prototype.forEach.call(tabs.children, function (b, idx) {
+      b.setAttribute("aria-selected", idx === i ? "true" : "false");
+      b.tabIndex = idx === i ? 0 : -1;
+    });
+    detail.innerHTML = "";
+    var h = document.createElement("h2"); h.textContent = s.name;
+    var p = document.createElement("p"); p.textContent = s.text;
+    var ul = document.createElement("ul");
+    s.items.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+    var a = document.createElement("a");
+    a.className = "btn ask"; a.textContent = "Ask about this service";
+    a.href = mailTo("Enquiry: " + s.name, "Hello, I would like to know more about " + s.name + ".");
+    detail.appendChild(h); detail.appendChild(p); detail.appendChild(ul); detail.appendChild(a);
+    if (animate) { detail.classList.remove("swap"); void detail.offsetWidth; detail.classList.add("swap"); }
+  }
+
+  SERVICES.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tab"; b.setAttribute("role", "tab"); b.textContent = s.name;
+    b.addEventListener("click", function () { show(i, true); });
+    b.addEventListener("keydown", function (e) {
+      var n = null;
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") n = (i + 1) % SERVICES.length;
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") n = (i - 1 + SERVICES.length) % SERVICES.length;
+      if (n !== null) { e.preventDefault(); show(n, true); tabs.children[n].focus(); }
+    });
+    tabs.appendChild(b);
+    var o = document.createElement("option"); o.textContent = s.name; sel.appendChild(o);
+  });
+  var other = document.createElement("option"); other.textContent = "Something else"; sel.appendChild(other);
+  show(0, false);
+
+  document.getElementById("reqForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("fName").value;
+    var service = sel.value;
+    var msg = document.getElementById("fMsg").value;
+    window.location.href = mailTo("Quote request: " + service, "Name: " + name + "\nService: " + service + "\n\n" + msg);
+  });
+  var ml = document.getElementById("mailLink"); ml.href = "mailto:" + COMPANY_EMAIL; ml.textContent = COMPANY_EMAIL;
+</script>
+</body>
+</html>
